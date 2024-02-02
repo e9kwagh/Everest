@@ -1,0 +1,85 @@
+
+
+{% extends 'student_work/base.html' %}
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      {% include 'student_work/message.html' %}
+      <div class="card p-4 shadow text-center">
+
+        <h2 class="mb-4 fw-bold">Create student Account</h2>
+
+        <form method="post" action="{% url 'signuppage' %}" enctype="multipart/form-data" class="needs-validation mt-2" novalidate>
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="{{ form.username.id_for_label }}" class="form-label">Username :</label>
+            {{ form.username }}
+            <div class="invalid-feedback">
+              {{ form.username.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name : </label>
+            {{ form.first_name }}
+            <div class="invalid-feedback">
+              {{ form.first_name.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name : </label>
+            {{ form.last_name }}
+            <div class="invalid-feedback">
+              {{ form.last_name.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.email.id_for_label }}" class="form-label"> Email : </label>
+            {{ form.email }}
+            <div class="invalid-feedback">
+              {{ form.email.errors }}
+            </div>
+          </div>
+
+            <div class="mb-3">
+            <label for="{{ form.profile_pic.id_for_label }}" class="form-label">Profile Picture:</label>
+            {{ form.profile_pic }}
+            <div class="invalid-feedback">
+              {{ form.profile_pic.errors }}
+            </div>
+          </div>
+
+
+
+          <div class="mb-3">
+            <label for="{{ form.password1.id_for_label }}" class="form-label">Create password : </label>
+            {{ form.password1 }}
+            <div class="invalid-feedback">
+              {{ form.password1.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm password : </label>
+            {{ form.password2 }}
+            <div class="invalid-feedback">
+              {{ form.password2.errors }}
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block mt-4">Create Student</button>
+
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

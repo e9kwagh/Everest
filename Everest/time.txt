@@ -1,0 +1,36 @@
+>>> now = current_time_local.strftime('%Y-%m-%dT%H:%M')
+>>> now
+'2024-01-24T11:28'
+>>> current_time_local = timezone.localtime(timezone.now())
+>>> formatted_current_time_local_str = current_time_local.strftime('%Y-%m-%dT%H:%M')
+>>> formatted_current_time_local_str                                                
+'2024-01-24T11:28'
+>>> timezone.activate('Asia/Kolkata')
+>>> current_time_local = timezone.localtime(timezone.now())
+>>> current_time_local                                     
+datetime.datetime(2024, 1, 24, 17, 0, 44, 346440, tzinfo=zoneinfo.ZoneInfo(key='Asia/Kolkata'))
+>>> current_time_local = timezone.localtime(timezone.now())
+>>> formatted_current_time_local = current_time_local.strftime('%Y-%m-%dT%H:%M:%S')
+>>> formatted_current_time_local                                                   
+'2024-01-24T17:03:10'
+>>> current_time_local = timezone.localtime(timezone.now())
+>>> formatted_current_time_local = current_time_local.strftime('%Y-%m-%dT%H:%M')
+>>> formatted_current_time_local_aware = timezone.datetime.strptime( formatted_current_time_local, '%Y-%m-%dT%H:%M')
+>>> formatted_current_time_local_aware                                                                              
+datetime.datetime(2024, 1, 24, 17, 6)
+>>> now = formatted_current_time_local
+>>> now
+'2024-01-24T17:06'
+>>> math_assignments = Assignments.objects.filter(math_send_time__lt=now).order_by('-math_send_time')
+C:\Users\Kunal Wagh\Desktop\ie9\lesson028\venv\Lib\site-packages\django\db\models\fields\__init__.py:1654: RuntimeWarning: DateTimeField Assignments.math_send_time received a naive datetime (2024-01-24 17:06:00) while time zone support is active.
+  warnings.warn(
+>>> math_assignments
+<QuerySet [<Assignments: Day02>, <Assignments: Day01>]>
+>>> current_time_local = timezone.localtime(timezone.now())
+>>> v =current_time_local.strftime('%Y-%m-%dT%H:%M')
+>>> v
+'2024-01-24T17:08'
+>>> now  = v
+>>> now
+'2024-01-24T17:08'
+>>>

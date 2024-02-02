@@ -1,0 +1,9 @@
+{% if messages %}
+  <div class="alert alert-dismissible {% if messages.tags %}{{ messages.tags }}{% else %}alert-info{% endif %}" id="alertMessage">
+    <button type="button" class="close" onclick="closeAlert()">&times;</button>
+    {% for message in messages %}
+      {{ message }}
+    {% endfor %}
+  </div>
+{% endif %}
+
