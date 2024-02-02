@@ -22,7 +22,7 @@
 
 # Go inside the project folder
 
-    cd 
+    cd  untill you see manage.py file 
 
 # Install the necessary modules
 
