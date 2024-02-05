@@ -23,30 +23,20 @@
 
     <nav class="navbar navbar-expand-lg "   style="background-color:  #7533F9;"   >
         <div class="container-fluid">
-          <a class="navbar-brand ms-2 text-light" href="{% url 'studentlogin' %}"> ATS</a>
+          <a class="navbar-brand ms-2 text-light" href="{% url 'student_login' %}"> ATS</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <!-- <li class="nav-item">
-                <a class="nav-link active" aria-current="page"  href="{% url 'studentlogin' %}">Home</a>
-              </li> -->
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li> -->
+            
 
               {% if user.is_superuser  %}
                 
-              <!-- <li class="nav-item dropdown"> -->
-
-                <!-- <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Assigments
-                </a>  
-              -->
+          
                   <li  class="nav-item"><a class="nav-link text-light " href="{% url 'schedule_assignment' %}">Schedule Assignments </a></li>
-                  <li  class="nav-item"><a class="nav-link text-light" href="{% url 'admin_tracker' %}"> Track Student Assignment </a></li>
-                  <li  class="nav-item"><a class="nav-link text-light" href="{% url 'all_assignments' %}"> Student Assignment view </a></li>
+                  <li  class="nav-item"><a class="nav-link text-light" href=""> Track Student Assignment </a></li>
+                  <li  class="nav-item"><a class="nav-link text-light" href="{% url 'view_assignments' %}"> Check Assignments  </a></li>
                  
                   <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
                   <li><hr class="dropdown-divider"></li>
@@ -60,7 +50,7 @@
               {% if user.is_authenticated and not user.is_superuser %}
                 
               <li class="nav-item">
-                <a class="nav-link text-light" href="{% url 'student_tracker' %}">Track assignments</a>
+                <a class="nav-link text-light" href="">Track assignments</a>
             </li>
 
 
@@ -70,7 +60,7 @@
                   Submissions
                 </a> -->
                 <!-- <ul class="dropdown-menu"> -->
-                  <li><a class="nav-link text-light " href="{% url 'all_assignments' %}"> Check new assignments</a></li>
+                  <li><a class="nav-link text-light " href=""> Check new assignments</a></li>
                   <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li> -->
@@ -82,14 +72,16 @@
 
               {% if user.is_authenticated and user.is_superuser %}
               <li class="nav-item">
-                  <a class="nav-link text-light" href="{% url 'signuppage' %}">New Student Accounts</a>
+                  <a class="nav-link text-light" href="{% url 'signup' %}">New Student Accounts</a>
               </li>
              {% endif %}
             </ul>
-            {% if user.is_authenticated  %}
-            <a class="navbar-brand text-light" href="{% url 'logout' %}">Logout </a>
-            {% endif %}
-           
+            {% if user.is_authenticated %}
+            <form action="{% url 'logout' %}" method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link text-light text-decoration-none">Logout</button>
+            </form>
+        {% endif %}
             <!-- <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>

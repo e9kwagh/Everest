@@ -1,17 +1,17 @@
 
 
-{% extends 'student_work/base.html' %}
+{% extends 'cbv/base.html' %}
 {% block content %}
 <div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      {% include 'student_work/message.html' %}
+      {% include 'cbv/message.html' %}
       <div class="card p-4 shadow text-center">
         <h2 class="mb-4 fw-bold">Superuser Login</h2>
 
 
 
-        <form method="post" action="{% url 'studentlogin' %}" class="mt-3 needs-validation" novalidate>
+        <form method="post" action="{% url 'admin_login' %}" class="mt-3 needs-validation" novalidate>
           {% csrf_token %}
 
           <div class="mb-3">
@@ -37,7 +37,7 @@
         <hr class="my-4">
 
         <p class="mb-3">Login as Student:</p>
-        <a href="{% url 'studentlogin' %}" class="btn btn-primary btn-block   ">Student Login</a>
+        <a href="{% url 'student_login' %}" class="btn btn-primary btn-block   ">Student Login</a>
 
       </div>
     </div>

@@ -1,0 +1,102 @@
+{% extends 'cbv/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5 mb-4">
+    {% include 'cbv/message.html' %}
+    <h3 class="text-center my-5">All Assignments</h3>
+
+    <div class="table-responsive">
+        {% if assignments %}
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Assignment</th>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th class="d-none d-sm-table-cell col-6 col-sm-4">Link of Assignments</th>
+                        <th>Deadline</th>
+                        <th>Arrived on</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for assignment in assignments %}
+                        <tr>
+                            <th>{{ assignment.type_field }}</th>
+                            <td>{{ assignment.title }}</td>
+                            <td>{{ assignment.description }}</td>
+                            <td class="d-none d-sm-table-cell">
+                                <a href="{{ assignment.link }}" data-bs-toggle="popover" data-bs-content="{{ assignment.link }}" data-bs-trigger="hover" data-bs-placement="top" role="button" class="text-decoration-none text-dark" target="_blank" style="transition: color 0.3s;">
+                                    {{ assignment.link|truncatechars:20 }}
+                                    <button class="btn btn-sm btn-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Open in New Tab" style="pointer-events: none;">Open</button>
+                                </a>
+                            </td>
+                            <td>{{ assignment.deadline|date:"h:i A, F d, Y" }}</td>
+                            <td>{{ assignment.delivery_time|date:"h:i A, F d, Y" }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <!-- Bootstrap Pagination -->
+            <!-- Bootstrap Pagination -->
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+        {% if assignments.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page=1" aria-label="First">
+                    &laquo;&laquo; first
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ assignments.previous_page_number }}" aria-label="Previous">
+                    previous
+                </a>
+            </li>
+        {% endif %}
+        <li class="page-item disabled">
+            <span class="page-link">Page {{ assignments.number }} of {{ assignments.paginator.num_pages }}</span>
+        </li>
+        {% if assignments.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ assignments.next_page_number }}" aria-label="Next">
+                    next
+                </a>
+            </li>
+            <li class="page-item">
+                <a class="page-link" href="?page={{ assignments.paginator.num_pages }}" aria-label="Last">
+                    last &raquo;&raquo;
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+        {% else %}
+            <p>No assignments available.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+            return new bootstrap.Popover(popoverTriggerEl);
+        });
+
+        var clipboard = new ClipboardJS('.copy-btn');
+
+        clipboard.on('success', function (e) {
+            var tooltip = new bootstrap.Tooltip(e.trigger);
+            tooltip.show();
+        });
+    });
+</script>
+
+{% endblock %}

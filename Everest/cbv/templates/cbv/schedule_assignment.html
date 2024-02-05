@@ -1,0 +1,91 @@
+{% extends 'cbv/base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      {% include 'cbv/message.html' %}
+      <div class="card p-4 shadow text-center">
+
+        <h2 class="mb-4">Schedule Assignment</h2>
+
+        <form method="post" action="{% url 'schedule_assignment' %}" class="needs-validation mt-3" novalidate>
+          {% csrf_token %}
+          
+          <div class="mb-3 col-md-6 mx-auto">
+            <label for="{{ form.type_field.id_for_label }}" class="form-label fw-bold">Assignment Type</label>
+            {{ form.type_field }}
+            <div class="invalid-feedback">
+              {{ form.type_field.errors }}
+            </div>
+          </div>
+
+          {% if form.cleaned_data.type_field == 'other' %}
+            <div class="mb-3 col-md-6 mx-auto">
+              <label for="{{ form.other_text.id_for_label }}" class="form-label fw-bold">Other Assignment Type</label>
+              {{ form.other_text }}
+              <div class="invalid-feedback">
+                {{ form.other_text.errors }}
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="mb-3 col-md-6 mx-auto">
+            <label for="{{ form.title.id_for_label }}" class="form-label fw-bold">Title</label>
+            {{ form.title }}
+            <div class="invalid-feedback">
+                {{ form.title.errors }}
+            </div>
+          </div>
+        
+          <div class="mb-3 col-md-6 mx-auto">
+            <label for="{{ form.description.id_for_label }}" class="form-label fw-bold">Description</label>
+            {{ form.description }}
+            <div class="invalid-feedback">
+                {{ form.description.errors }}
+            </div>
+          </div>
+        
+          <div class="mb-3 col-md-6 mx-auto">
+            <label for="{{ form.delivery_time.id_for_label }}" class="form-label fw-bold">Delivery Time</label>
+            {{ form.delivery_time }}
+            <div class="invalid-feedback">
+              {{ form.delivery_time.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3 col-md-6 mx-auto">
+            <label for="{{ form.deadline.id_for_label }}" class="form-label fw-bold">Deadline</label>
+            {{ form.deadline }}
+            <div class="invalid-feedback">
+              {{ form.deadline.errors }}
+            </div>
+          </div>
+
+          <div class="mb-3 col-md-6 mx-auto">
+            <label for="{{ form.link.id_for_label }}" class="form-label fw-bold">Question link</label>
+            {{ form.link }}
+            <div class="invalid-feedback">
+              {{ form.link.errors }}
+            </div>
+          </div>
+        
+          <button type="submit" class="btn btn-primary btn-block mt-4">Schedule Assignment</button>
+        </form>
+
+        {% if form.errors %}
+          <div class="alert alert-danger mt-3">
+            <strong>Error:</strong>
+            <ul>
+              {% for error in form.errors %}
+                <li>{{ error }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
