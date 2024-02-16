@@ -12,7 +12,9 @@
     {% block stylename %}
         
     {% endblock stylename %}
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofTtfEoA5MjAuFlA0P4f+e0ZI7t5zL1Bd" crossorigin="anonymous">
+    
+    
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
    
 
@@ -49,8 +51,8 @@
                
               {% if user.is_authenticated and not user.is_superuser %}
                 
-              <li class="nav-item">
-                <a class="nav-link text-light" href="">Track assignments</a>
+              <li >
+                <a class="nav-link text-light" href="{% url 'student_view' %}?action=update">Track assignments</a>
             </li>
 
 
@@ -60,7 +62,7 @@
                   Submissions
                 </a> -->
                 <!-- <ul class="dropdown-menu"> -->
-                  <li><a class="nav-link text-light " href=""> Check new assignments</a></li>
+                  <li><a class="nav-link text-light " href="{% url 'student_view' %}?action=submit"> Check new assignments</a></li>
                   <!-- <li><a class="dropdown-item" href="#">Another action</a></li>
                   <li><hr class="dropdown-divider"></li>
                   <li><a class="dropdown-item" href="#">Something else here</a></li> -->
@@ -113,8 +115,9 @@ myModal.addEventListener('shown.bs.modal', () => {
 
 
 </script>
-
-    
+    <script src="https://kit.fontawesome.com/eb5638a6e8.js" crossorigin="anonymous"></script>
+    <!-- feather-->
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script> 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
   

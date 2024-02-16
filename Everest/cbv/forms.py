@@ -14,8 +14,34 @@ class AdminLoginForm(AuthenticationForm):
         fields = ["username", "password"]
 
 
+class Assignment_sub_Form(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ['submission_link']
+        labels = {'submission_link': 'Enter Submission Link'}
+        widgets = {
+            'submission_link': forms.TextInput(
+                attrs={
+                    'class': 'form-control mt-2',
+                    'placeholder': 'Enter your submission link',
+                }
+            ),
+        }
 
-
+class Assignment_update_Form(forms.ModelForm):
+    class Meta:
+        model = Submission
+        fields = ['submission_link']
+        labels = {'submission_link': 'Enter Updated Link'}
+        widgets = {
+            'submission_link': forms.TextInput(
+                attrs={
+                    'class': 'form-control mt-2',
+                    'placeholder': 'Enter your updated link',
+                }
+            ),
+        }
+        
 class StudentSignUpForm(UserCreationForm):
 
     class Meta:
@@ -35,25 +61,25 @@ class StudentSignUpForm(UserCreationForm):
 
 class AssignmentForm(forms.ModelForm):
     TYPE_CHOICES = [
-        ('lesson', 'Lesson'),
-        ('math', 'Math'),
-        ('other', 'Other'),
+        ('Lesson','lesson' ),
+        ('Math','math' ),
+        ('Other','other'),
     ]
 
-    type_field = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
-    other_text = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
+    category = forms.ChoiceField(choices=TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    # other_text = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control'}))
     title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     description = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control','rows': 3}))
-    link = forms.URLField(widget=forms.TextInput(attrs={'class': 'form-control'}))
+    assignment_link = forms.URLField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     class Meta:
         model = Assignment
         fields = [
-            'type_field',
+            'category',
             'title',
             'description',
             'delivery_time',
             'deadline',
-            'link'
+            'assignment_link'
         ]
         widgets = {
             'delivery_time': forms.DateTimeInput(attrs={'type': 'datetime-local', 'class': 'form-control'}, format='%Y-%m-%dT%H:%M'),

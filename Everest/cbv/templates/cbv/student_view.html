@@ -1,0 +1,272 @@
+{% extends 'cbv/base.html' %}
+
+{% block content %}
+
+<div class="container mt-5 mb-4">
+
+    {% include 'cbv/message.html' %}
+    {% if  action == "update"  %}
+    <h3 class="text-center my-5"> Update your Assignments</h3> 
+    {% else %}
+    <h3 class="text-center my-5">Assignments</h3> 
+    {% endif %}
+  
+
+    <div class="table-responsive ">
+        <table class="table table-bordered table-hover">
+
+            {% if action == "update"  %}
+     <!-- this i the Update Page -->
+            <thead class="table-dark" style="padding-bottom: 10%;">
+                <tr style="padding: 15px; ">
+                    <th>Assignment</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th class="d-none d-sm-table-cell col-4 col-sm-3">Link of Assignments</th>
+                    <th>Submited on</th>
+                    <th>Deadline was</th>
+                    <th class="text-end">Submit</th>
+                   
+                    
+                 
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                    <tr style="padding: 15px;">
+
+                        <td style="padding: 15px;" >{{ assignment.assignment.assignment.category }}</td>
+                        <td>{{ assignment.assignment.assignment.title }}</td>
+                        <td>{{ assignment.assignment.assignment.description }}</td>
+                      
+
+                        <td>
+                            <a
+                                href="{{ assignment.assignment.submission_link }}"
+                                data-bs-toggle="popover"
+                                data-bs-content="{{ assignment.assignment.submission_link }}"
+                                data-bs-trigger="hover"
+                                data-bs-placement="top"
+                                role="button"
+                                class="text-decoration-none text-dark"
+                                target="_blank"
+                                style="transition: color 0.3s;"
+                            >
+                                {{ assignment.assignment.submission_link|truncatechars:20 }}
+                                <button
+                                    class="btn btn-sm btn-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Open in New Tab"
+                                    style="pointer-events: none;"
+                                >
+                                    Open
+                                </button>
+                            </a>
+                        </td>
+
+                        <td {% if assignment.ontime %} style="color:#5cb85c ;" {% else %}  style="color:#d9534f;" {% endif %} >{{ assignment.assignment.submission_time|date:"h:i A, F d, Y" }}</td>
+                        <td {% if assignment.ontime %} style="color:#5cb85c ;" {% else %}  style="color:#d9534f;" {% endif %} >{{ assignment.assignment.assignment.deadline|date:"h:i A, d/m/Y" }}</td>
+
+                      <!--Update page  update ,lesson and other pages -->
+                  
+                        <td class = "text-end">
+                            <div class="modal fade" id="exampleModalMath_{{  assignment.assignment.id }}" tabindex="-1" aria-labelledby="exampleModalLabelMath_{{ assignment.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title text-start fs-5" id="exampleModalLabel"> Update Assignment</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-start">
+                                            <form action="{% url 'UpdateAssignment' pk=assignment.assignment.id  %}" method="post">
+                                                {% csrf_token %}
+                                                {{ form }}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>                      
+        
+                              <button class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#exampleModalMath_{{  assignment.assignment.id }}">
+                                Update
+                            </button>
+                                                       
+                       
+                    </td>
+
+                    </tr>
+                {% endfor %}
+            </tbody>
+                
+            {% else %}
+
+             <!-- welcome to the submit_page     -->
+             <thead class="table-dark">
+                <tr>
+                    <th>Assignment</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th class="d-none d-sm-table-cell col-4 col-sm-3">Link of Assignments</th>
+                    <th>Arrived on</th>
+                    <th>Deadline is</th>
+                    <th class="text-end">Submit</th>
+                   
+                    
+                 
+                </tr>
+            </thead>
+            <tbody>
+                {% for assignment in assignments %}
+                    <tr>
+
+                        <td>{{ assignment.assignment.category }}</td>
+                        <td>{{ assignment.assignment.title }}</td>
+                        <td>{{ assignment.assignment.description }}</td>
+                      
+
+                        <td>
+                            <a
+                                href="{{ assignment.assignment.assignment_link }}"
+                                data-bs-toggle="popover"
+                                data-bs-content="{{ assignment.assignment.assignment_link }}"
+                                data-bs-trigger="hover"
+                                data-bs-placement="top"
+                                role="button"
+                                class="text-decoration-none text-dark"
+                                target="_blank"
+                                style="transition: color 0.3s;"
+                            >
+                                {{ assignment.assignment.assignment_link|truncatechars:20 }}
+                                <button
+                                    class="btn btn-sm btn-secondary"
+                                    data-bs-toggle="tooltip"
+                                    data-bs-placement="top"
+                                    title="Open in New Tab"
+                                    style="pointer-events: none;"
+                                >
+                                    Open
+                                </button>
+                            </a>
+                        </td>
+
+                        <td >{{ assignment.assignment.delivery_time|date:"h:i A, F d, Y" }}</td>
+                        <td {% if assignment.check_deadline %} style="color:#5cb85c ;" {% else %}  style="color:#d9534f;" {% endif %} >{{ assignment.assignment.deadline|date:"h:i A, d/m/Y" }}</td>
+
+                      <!-- update ,lesson and other pages -->
+                               
+                       
+                    </td>
+                     
+                        <!-- submit page -->
+                        <td class = "text-end">
+                            <div class="modal fade" id="exampleModalMath_{{  assignment.assignment.id }}" tabindex="-1" aria-labelledby="exampleModalLabelMath_{{ assignment.id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title text-start fs-5" id="exampleModalLabel">Submit Assignment</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body text-start">
+                                            <form action="{% url 'SubmitAssignment' assignment_id=assignment.assignment.id  %}" method="post">
+                                                {% csrf_token %}
+                                                {{ form }}
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                     
+                            {% if assignment.is_submit %}
+                            
+                            <!-- button if else -->
+                               
+                            <p class="text-center mt-2" style="color:#5cb85c;"><i class="fas fa-check "></i></p>
+                                
+                            {% else %}
+        
+                              <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModalMath_{{  assignment.assignment.id }}">
+                                Submit
+                            </button>
+                            {% endif %}                               
+                       
+                    </td>
+
+                      
+                        
+                      
+                    </tr>
+                {% endfor %}
+            </tbody>
+
+
+                
+            {% endif %}
+            
+        </table>
+
+        <!-- Math Page -->
+        <nav aria-label="Math Assignments Pagination">
+            <ul class="pagination justify-content-center">
+                {% if math_data.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?math_page=1" aria-label="First">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?math_page={{ math_data.previous_page_number }}" aria-label="Previous">Previous</a>
+                    </li>
+                {% endif %}
+        
+                {% for page in math_data.paginator.page_range %}
+                    <li class="page-item{% if page == math_data.number %} active{% endif %}">
+                        <a class="page-link" href="?math_page={{ page }}">{{ page }}</a>
+                    </li>
+                {% endfor %}
+        
+                {% if math_data.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?math_page={{ math_data.next_page_number }}" aria-label="Next">Next</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?math_page={{ math_data.paginator.num_pages }}" aria-label="Last">Last</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+
+    <script>
+    
+
+            document.addEventListener('DOMContentLoaded', function () {
+                var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+    
+                var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+                var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+                    return new bootstrap.Popover(popoverTriggerEl);
+                });
+    
+                var clipboard = new ClipboardJS('.copy-btn');
+    
+                clipboard.on('success', function (e) {
+                    var tooltip = new bootstrap.Tooltip(e.trigger);
+                    tooltip.show();
+                });
+            });
+    
+    
+        </script>
+    
+        {% endblock %}
+    
