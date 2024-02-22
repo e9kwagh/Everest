@@ -118,25 +118,7 @@ class AssignmentListView(ListView):
 
     def get_queryset(self):
         assignments = Assignment.objects.all().order_by('-delivery_time')
-        paginator = Paginator(assignments, self.paginate_by)
-        page = self.request.GET.get('page', 1)
-
-        try:
-            page = int(page)
-        except ValueError:
-            page = 1
-
-        if page < 1:
-            page = 1
-
-        if page > paginator.num_pages:
-            page = paginator.num_pages
-
-        assignments = paginator.page(page)
-
         return assignments
-
-
 
 
 class StudentView(ListView) : 
@@ -209,10 +191,27 @@ class UpdateAssignment(UpdateView) :
         return super().form_invalid(form)
     
 
+# class Summary(ListView):
+#     model : Student
+#     template_name ="cbv/summary.html"
+#     context_object_name = 'summary'
+#     paginate_by = 5  
+
+#     def get_queryset(self):
+#         return Student.objects.all()
+
+#     def get_context_data(self, **kwargs):   
+#         context = super().get_context_data(**kwargs)
+#         context["summary_data"] = Student.summary()
+#         context["assignment"] = Assignment.objects.all().count()
+#         return context
+
+
 class Summary(ListView):
-    model : Student
-    template_name ="cbv/summary.html"
+    model = Student
+    template_name = "cbv/summary.html"
     context_object_name = 'summary'
+    paginate_by = 5 
 
     def get_queryset(self):
         return Student.objects.all()
@@ -221,27 +220,30 @@ class Summary(ListView):
         context = super().get_context_data(**kwargs)
         context["summary_data"] = Student.summary()
         context["assignment"] = Assignment.objects.all().count()
-        return context
 
+        paginator = Paginator(context["summary_data"], self.paginate_by)
+        page = self.request.GET.get('page')
+        summary_page = paginator.get_page(page)
+
+        context["summary_data"] = summary_page
+        return context
 
 class StudentDetailView(DetailView):
     model = Student
     template_name = "cbv/summary.html"
     context_object_name = "student"
+    paginate_by = 5  
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["assignment"] = self.object.assignment()
-        # student = Student.objects.filter(student = self.request.user)
-        # context["name"] = student.student.username
+        assignments = self.object.assignment()
+
+       
+        paginator = Paginator(assignments, self.paginate_by)
+        page = self.request.GET.get('page')
+        assignments_page = paginator.get_page(page)
+
+        context["assignment"] = assignments_page
         context["page"] = "studentView"
         return context
 
-
-  # submission = Submission.objects.create(
-        #     student=student,
-        #     assignment = assignment , 
-        #     submission_link=submission_link,
-        #     submission_time = current_now,  
-        # )
-        # need to user try and except

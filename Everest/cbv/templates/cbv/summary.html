@@ -8,7 +8,7 @@
 
 <div class="container mt-5 mb-4">
     {% include 'cbv/message.html' %}
-    <h3 class="text-center my-5">Assignment progress</h3>
+    <h3 class="text-center my-5">Assignment of student</h3>
 
     <div class="table-responsive">
     
@@ -37,7 +37,35 @@
             
 
 
-        
+            {% if assignment.has_other_pages %}
+            <div class="pagination justify-content-center mt-3">
+                <ul class="pagination">
+                    {% if assignment.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ assignment.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% for num in assignment.paginator.page_range %}
+                        <li class="page-item {% if assignment.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if assignment.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ assignment.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ assignment.paginator.num_pages }}">Last</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
    
 
 {% else %}
@@ -72,10 +100,35 @@
                     {% endfor %}
                 </tbody>
             </table>
-            
-
-
-        
+            {% if summary_data.has_other_pages %}
+            <div class="pagination justify-content-center mt-3">
+                <ul class="pagination">
+                    {% if summary_data.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ summary_data.previous_page_number }}">Previous</a>
+                        </li>
+                    {% endif %}
+                    {% for num in summary_data.paginator.page_range %}
+                        <li class="page-item {% if summary_data.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if summary_data.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ summary_data.next_page_number }}">Next</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ summary_data.paginator.num_pages }}">Last</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>
             
             {% endif %}
             {% endblock content %}
