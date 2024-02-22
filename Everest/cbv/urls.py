@@ -17,7 +17,9 @@ urlpatterns = [
     path('studentview/', views.StudentView.as_view(), name='student_view'),
     path("Submitassignment/<int:assignment_id>/",views.SubmitAssignment.as_view(),name='SubmitAssignment'),
     path("updateassignment/<int:pk>/",views.UpdateAssignment.as_view(),name='UpdateAssignment'),
-    path("summary",views.UpdateAssignment.as_view(),name='UpdateAssignment'),
+    path("summary",views.Summary.as_view(),name='summary'),
+    path("studentprofile/<int:pk>",views.StudentDetailView.as_view(),name='student_profile'),
+
 
 
 

@@ -8,7 +8,8 @@ from django.contrib.auth.views import LoginView
 from django.views.generic.list import ListView
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
-from django.views.generic.edit import FormView ,CreateView ,UpdateView
+from django.views.generic.edit import FormView ,CreateView ,UpdateView 
+from django.views.generic import DetailView
 from .models import Assignment ,Submission,Student
 from .forms import StudentLoginForm, AdminLoginForm ,StudentSignUpForm,AssignmentForm,Assignment_update_Form
 from django.urls import reverse_lazy
@@ -162,7 +163,7 @@ class StudentView(ListView) :
         return context
 
 def home(request):   
-    return  render(request,"cbv/base.html")
+   return  render(request,"cbv/base.html")
 
 
 class SubmitAssignment(LoginRequiredMixin, CreateView):
@@ -207,9 +208,34 @@ class UpdateAssignment(UpdateView) :
         submission.submission_link = link
         return super().form_invalid(form)
     
-    
+
+class Summary(ListView):
+    model : Student
+    template_name ="cbv/summary.html"
+    context_object_name = 'summary'
+
+    def get_queryset(self):
+        return Student.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["summary_data"] = Student.summary()
+        context["assignment"] = Assignment.objects.all().count()
+        return context
 
 
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = "cbv/summary.html"
+    context_object_name = "student"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["assignment"] = self.object.assignment()
+        # student = Student.objects.filter(student = self.request.user)
+        # context["name"] = student.student.username
+        context["page"] = "studentView"
+        return context
 
 
   # submission = Submission.objects.create(

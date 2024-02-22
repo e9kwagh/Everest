@@ -20,26 +20,28 @@ class Student(models.Model):
             is_submited = assignment.is_submited(self)
             if is_submited:
                 on_time = assignment.submission.get(student=self).is_ontime()
-                deadline = False if on_time else False
+                deadline = False if on_time else True
 
             data = {
                 "assignment": assignment.title,
                 "on_time": on_time,
                 "is_submited": is_submited,
                 "deadline": deadline,
+                
             }
 
             result.append(data)
-        return result
-
-    def summary(self):
+        return result[::-1]
+    
+    @classmethod
+    def summary(cls):
         """summary"""
-        students = Student.objects.filter(student__is_staff=False)
+        students = cls.objects.filter(student__is_staff=False)
         summary_record = []
 
         for student in students:
             data = {}
-            submissions = student.submission.filter(student=self)
+            submissions = student.submission.filter(student=student)
             print("submissions now =  : ", submissions)
             total = submissions.count()
             deadline, ontime = 0, 0
@@ -54,6 +56,7 @@ class Student(models.Model):
                 "ontime": ontime,
                 "deadline": deadline,
                 "total": total,
+                "id": student.id,
             }
             summary_record.append(data)
         return summary_record
@@ -190,7 +193,7 @@ class Submission(models.Model):
     def Submited_assignment(cls,user):
         return cls.objects.filter(student__student = user).order_by("-submission_time")
 
-    
+
     
 
     # black models.py

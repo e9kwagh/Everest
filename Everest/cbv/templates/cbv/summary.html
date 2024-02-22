@@ -1,0 +1,82 @@
+{% extends 'cbv/base.html' %}
+
+{% block content %}
+
+{% if page %}
+    
+<!-- Student profile-->
+
+<div class="container mt-5 mb-4">
+    {% include 'cbv/message.html' %}
+    <h3 class="text-center my-5">Assignment progress</h3>
+
+    <div class="table-responsive">
+    
+            <table class="table table-bordered">
+                <thead class="table-dark mb-5 pb-5" style="margin-bottom: 10%;">
+                    <tr>
+                        <th>Assignments</th>
+                        <th>Submited</th>
+                        <th> On time </th>
+                        <th>Deadline crossed </th>
+                     
+                    </tr>
+                </thead>
+                <tbody class="mt-5">
+                    {% for sum in assignment  %}
+                        <tr>
+                            <th class="text-primary">{{ sum.assignment }}</a></th>
+                            <td class="text-start text-info">{{ sum.is_submited }}</td>
+                            <td class="text-start text-success ">{{ sum.on_time }}</td>
+                            <td class="text-start text-danger">{{ sum.deadline }}</td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+
+
+        
+   
+
+{% else %}
+<!-- Summary Page -->
+
+<div class="container mt-5 mb-4">
+    {% include 'cbv/message.html' %}
+    <h3 class="text-center my-5">Track progress</h3>
+
+    <div class="table-responsive">
+    
+            <table class="table table-bordered">
+                <thead class="table-dark mb-5 pb-5" style="margin-bottom: 10%;">
+                    <tr>
+                        <th>Username</th>
+                        <th>Total assignment </th>
+                        <th>Submited</th>
+                        <th>No.deadline crossed </th>
+                        <th>Submited in time </th>
+                    </tr>
+                </thead>
+                <tbody class="mt-5">
+                    {% for sum in summary_data  %}
+                        <tr>
+                            <th class="no-underline"><a href="{% url 'student_profile' sum.id %}" style="text-decoration: none;"  >{{ sum.username }}</a></th>
+                            <td class="text-end">{{ assignment }}</td>
+                            <td class="text-end text-primary">{{ sum.total }}</td>
+                            <td class="text-end text-danger">{{ sum.deadline }}</td>
+                            <td class="text-end text-success">{{ sum.ontime }}</td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+
+
+        
+            
+            {% endif %}
+            {% endblock content %}
+
